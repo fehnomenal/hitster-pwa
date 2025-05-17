@@ -6,6 +6,17 @@ import { decode } from 'he'
 import { retryAsync } from 'ts-retry'
 import YTMusic from 'ytmusic-api'
 
+const OVERRIDE_TRACKS: Record<string, string> = {
+  '1OxDEvjPoQrNhZ5c3tTxSu': 'g70mUTlK5es',
+  '1rijHA5veEZDV5CrGLpex6': '_cvE25yYtfo',
+  '3kJrESsM3ISObFTfBQfJ8H': 'uDwraXBUHgs',
+  '3STVHSJR6ZPGg9CI0aNP9q': 'k9JGDq2jp5c',
+  '3ttpmd97MQoJVL79A1d2Te': 'R1Jakp2Bh5k',
+  '3xdfDHO2TTVQfIjfReWHiD': '4ya0gEu4LYQ',
+  '3yCmaQ9qgxrpEjqaZEVyhS': 'R1Jakp2Bh5k',
+  '7vNKMhIItMMDAFSNjmhhtL': 'LGylTiWkk-8',
+}
+
 interface Card {
   CardNumber: string
   Spotify: string
@@ -29,7 +40,6 @@ interface DB {
 
 const gamesetsDir = join(dirname(import.meta.dirname), 'static', 'gamesets')
 const cacheDir = join(dirname(import.meta.dirname), 'tmp', 'tracks')
-await mkdir(cacheDir, { recursive: true })
 
 const db = (async () => {
   const DATABASE_URL = 'https://hitster.jumboplay.com/hitster-assets/gameset_database.json'
@@ -86,7 +96,7 @@ function progress(kind: keyof typeof _progress) {
 }
 
 for (const trackId of Object.keys(allSongs)) {
-  const cacheFile = join(cacheDir, trackId)
+  const cacheFile = join(cacheDir, trackId[0].toLowerCase(), trackId[1].toLowerCase(), trackId)
 
   if (await exists(cacheFile)) {
     ytPromises.push(readFile(cacheFile, { encoding: 'utf8' }).then((videoId) => {
@@ -183,11 +193,20 @@ for (const trackId of Object.keys(allSongs)) {
       }
 
       if (songs.length === 0) {
+        if (trackId in OVERRIDE_TRACKS) {
+          ytVideoIds[trackId] = OVERRIDE_TRACKS[trackId]
+
+          progress('cache hit')
+
+          return
+        }
+
         throw new Error(`Could not find youtube song for query '${query}' (track: '${trackId}')`)
       }
 
       ytVideoIds[trackId] = songs[0].videoId
 
+      await mkdir(dirname(cacheFile), { recursive: true })
       await writeFile(cacheFile, songs[0].videoId)
 
       progress('video id')

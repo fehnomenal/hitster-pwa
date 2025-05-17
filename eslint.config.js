@@ -2,6 +2,8 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu(
   {
+    ignores: ['static/gamesets/*.json'],
+
     stylistic: true,
 
     svelte: true,

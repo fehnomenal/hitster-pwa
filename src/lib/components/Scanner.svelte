@@ -1,7 +1,7 @@
 <script
   lang='ts'
   module>
-  import type { QuaggaJSCodeReader } from '@ericblade/quagga2'
+  import type { QuaggaJSCodeReader, QuaggaJSResultObject } from '@ericblade/quagga2'
   import Quagga from '@ericblade/quagga2'
   import QrCodeReader from 'quagga2-reader-qr'
 
@@ -18,23 +18,37 @@
 
   const { preview, onCode }: Props = $props()
 
+  function onDetected(data: QuaggaJSResultObject) {
+    if (data.codeResult.code !== null) {
+      onCode(data.codeResult.code)
+    }
+  }
+
   $effect(() => {
-    void Quagga.init({
-      inputStream: {
-        name: 'Live',
-        type: 'LiveStream',
-        target: preview,
-        constraints: {
-          facingMode: 'environment',
+    void Quagga.init(
+      {
+        inputStream: {
+          name: 'Live',
+          type: 'LiveStream',
+          target: preview,
+          constraints: {
+            facingMode: 'environment',
+          },
+        },
+        frequency: 5,
+        decoder: {
+          readers: [READER],
         },
       },
-      decoder: {
-        readers: [READER],
+      () => {
+        Quagga.onDetected(onDetected)
+        Quagga.start()
       },
-    }).then(() => Quagga.start())
+    )
 
-    Quagga.onDetected(data => data.codeResult.code !== null && onCode(data.codeResult.code))
-
-    return () => void Quagga.stop()
+    return () => {
+      Quagga.offDetected(onDetected)
+      void Quagga.pause()
+    }
   })
 </script>

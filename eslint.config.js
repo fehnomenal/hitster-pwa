@@ -1,0 +1,29 @@
+import antfu from '@antfu/eslint-config'
+
+export default antfu(
+  {
+    stylistic: true,
+
+    svelte: true,
+
+    typescript: {
+      tsconfigPath: 'tsconfig.lint.json',
+      filesTypeAware: ['**\/*.{svelte,ts}'],
+      parserOptions: {
+        extraFileExtensions: ['.svelte'],
+      },
+    },
+  },
+
+  {
+    name: 'my-additional-svelte-rules',
+
+    files: ['**/*.svelte'],
+
+    rules: {
+      'svelte/first-attribute-linebreak': 'error',
+
+      'svelte/max-attributes-per-line': 'error',
+    },
+  },
+)

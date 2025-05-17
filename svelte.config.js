@@ -9,6 +9,12 @@ const config = {
 
   kit: {
     adapter: adapter(),
+
+    typescript: {
+      config(config) {
+        config.include.push('../scripts/**/*')
+      },
+    },
   },
 }
 

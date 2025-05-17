@@ -7,7 +7,7 @@ export default antfu(
     svelte: true,
 
     typescript: {
-      tsconfigPath: 'tsconfig.lint.json',
+      tsconfigPath: 'tsconfig.json',
       filesTypeAware: ['**\/*.{svelte,ts}'],
       parserOptions: {
         extraFileExtensions: ['.svelte'],

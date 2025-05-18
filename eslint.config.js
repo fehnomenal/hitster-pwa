@@ -15,6 +15,8 @@ export default antfu(
         extraFileExtensions: ['.svelte'],
       },
     },
+
+    unocss: true,
   },
 
   {

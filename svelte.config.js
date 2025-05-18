@@ -12,7 +12,7 @@ const config = {
 
     typescript: {
       config(config) {
-        config.include.push('../scripts/**/*')
+        config.include.push('../scripts/**/*', '../uno.config.ts')
       },
     },
   },

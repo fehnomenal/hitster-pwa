@@ -13,6 +13,9 @@ export default antfu(
       filesTypeAware: ['**\/*.{svelte,ts}'],
       parserOptions: {
         extraFileExtensions: ['.svelte'],
+        projectService: {
+          allowDefaultProject: ['src/service-worker.ts'],
+        },
       },
     },
 

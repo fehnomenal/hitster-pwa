@@ -10,6 +10,7 @@
 
   async function handleScannedCode(code: string) {
     const match = code.match(/\/([^/]+)\/([^/]+)$/)
+
     if (match) {
       try {
         const id = await getCardVideoId(match[1], match[2])
@@ -25,6 +26,9 @@
           scanErrorMsg = 'unknown error'
         }
       }
+    }
+    else {
+      scanErrorMsg = `unknown data: ${code}`
     }
   }
 </script>

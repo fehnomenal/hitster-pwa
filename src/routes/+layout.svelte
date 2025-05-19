@@ -5,17 +5,16 @@
 </script>
 
 <svelte:head>
-  <title>HITSTER PWA</title>
+  <title>QUZIC</title>
 
   <meta
     name='description'
-    content='Play HITSTER in the browser and with YouTube!' />
+    content='Can you guess the song played?' />
 </svelte:head>
 
 <div class='p-3'>
-  <h1 class='grid font-bold grid-cols-[auto_min-content] mb-12 mt-8'>
-    <span class='text-5xl justify-self-center'>HITSTER</span>
-    <span class='self-end text-xs'>PWA</span>
+  <h1 class='grid mt-8 text-5xl justify-self-center font-bold grid-cols-[auto_min-content] mb-12'>
+    QUZIC
   </h1>
 
   {@render children()}

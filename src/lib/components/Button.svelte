@@ -6,7 +6,7 @@
 
 <button
   type='button'
-  class='{cls} aspect-square b-rounded-3xl bg-gray-1 cursor-pointer grid items-center justify-center'
+  class='{cls} grid aspect-square b-rounded-3xl bg-gray-1 cursor-pointer items-center justify-center'
   {...props}
 >
   {@render children?.()}

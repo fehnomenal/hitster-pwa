@@ -3,6 +3,8 @@ build/
 node_modules/
 tmp/
 
+.env
+
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*

@@ -1,6 +1,7 @@
 import type { SongDetailed, VideoDetailed } from 'ytmusic-api'
 import { exists, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
+import { env } from 'node:process'
 import transliterate from '@sindresorhus/transliterate'
 import { decode } from 'he'
 import { retryAsync } from 'ts-retry'
@@ -42,9 +43,13 @@ const gamesetsDir = join(dirname(import.meta.dirname), 'src', 'lib', 'database',
 const cacheDir = join(dirname(import.meta.dirname), 'tmp', 'tracks')
 
 const db = (async () => {
-  const DATABASE_URL = 'https://hitster.jumboplay.com/hitster-assets/gameset_database.json'
+  const url = env.DATABASE_URL
 
-  const res = await fetch(DATABASE_URL)
+  if (url === undefined) {
+    throw new Error('Please provide the DATABASE_URL environment variable.')
+  }
+
+  const res = await fetch(url)
 
   if (!res.ok) {
     throw new Error(`Could not fetch database (${res.status} ${res.statusText}): ${await res.text()}`)

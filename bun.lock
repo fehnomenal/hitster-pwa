@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "hitster-pwa",
+      "name": "quzic",
       "devDependencies": {
         "@antfu/eslint-config": "4.13.1",
         "@ericblade/quagga2": "1.8.4",

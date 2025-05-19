@@ -1,3 +1,4 @@
+import { env } from 'node:process'
 import adapter from '@sveltejs/adapter-static'
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 
@@ -8,7 +9,14 @@ const config = {
   preprocess: vitePreprocess(),
 
   kit: {
-    adapter: adapter({ precompress: true }),
+    adapter: adapter({
+      fallback: '404.html',
+      precompress: true,
+    }),
+
+    paths: {
+      base: env.BASE_PATH,
+    },
 
     typescript: {
       config(config) {

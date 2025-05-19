@@ -2,7 +2,7 @@
   import AudioPlayer from '$lib/components/AudioPlayer.svelte'
   import Button from '$lib/components/Button.svelte'
   import Scanner from '$lib/components/Scanner.svelte'
-  import { getCardVideoId } from '$lib/database.js'
+  import { getCardVideoId } from '$lib/database/index.js'
 
   let preview = $state<HTMLDivElement>(null as never)
   let videoId = $state<string>()

@@ -38,7 +38,7 @@ interface DB {
   gamesets: Gameset[]
 }
 
-const gamesetsDir = join(dirname(import.meta.dirname), 'static', 'gamesets')
+const gamesetsDir = join(dirname(import.meta.dirname), 'src', 'lib', 'database', 'gamesets')
 const cacheDir = join(dirname(import.meta.dirname), 'tmp', 'tracks')
 
 const db = (async () => {
@@ -233,9 +233,15 @@ await mkdir(gamesetsDir, { recursive: true })
 for (const gameset of (await db).gamesets) {
   console.log(`Updating gameset '${gameset.sku}'`)
 
-  const file = join(gamesetsDir, `${gameset.sku}.json`)
+  const file = join(gamesetsDir, `${gameset.sku}.ts`)
 
-  const cardsWithYtIds = gameset.gameset_data.cards.map(c => [c.CardNumber, ytVideoIds[c.Spotify]])
+  const cardsWithYtIds = gameset.gameset_data.cards
+    .map(c => `  "${c.CardNumber}": "${ytVideoIds[c.Spotify]}",`)
+    .sort()
 
-  await writeFile(file, JSON.stringify(Object.fromEntries(cardsWithYtIds), null, 2))
+  await writeFile(file, `${[
+    'export default {',
+    ...cardsWithYtIds,
+    '}',
+  ].join('\n')}\n`)
 }
